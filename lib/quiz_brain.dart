@@ -46,4 +46,20 @@ class QuizBrain {
   bool getAnswerBool() {
     return _questionList[_questionNumber].questionAnwser; 
   }
+
+  bool isFinished() {
+    if(_questionNumber >= _questionList.length - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  void reset() {
+    _questionNumber = 0;
+  }
+
 }
+
+
+  

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -28,8 +29,43 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-
+  //Counter for Score Keeper
   List<Icon> scoreList = [];
+
+  //Function to track answers
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getAnswerBool();
+
+    setState(() {
+      if (quizBrain.isFinished() == true) {
+        Alert(
+            context: context,
+            title: "Finished",
+            desc: "You\'ve reached the end of the quiz.",
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "Reset",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () => Navigator.pop(context),
+                width: 120,
+              )
+            ]).show();
+
+        quizBrain.reset();
+        scoreList = [];
+      } else {
+        if (userPickedAnswer == correctAnswer) {
+          scoreList.add(Icon(Icons.check, color: Colors.green));
+        } else {
+          scoreList.add(Icon(Icons.close, color: Colors.red));
+        }
+
+        quizBrain.nextQuestion();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +97,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
               onPressed: () {
-                bool correctAnswer =
-                    quizBrain.getAnswerBool();
-                if (correctAnswer == true) {}
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(true);
               },
               textColor: Colors.white,
               color: Colors.green,
@@ -87,18 +118,13 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
               onPressed: () {
-                bool correctAnswer =
-                    quizBrain.getAnswerBool();
-                if (correctAnswer == false) {}
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(false);
               },
               textColor: Colors.white,
               color: Colors.red,
               child: Text(
                 'False',
-                style: TextStyle( 
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                 ),
@@ -106,6 +132,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
+
         //Score Counter
         Row(
           children: scoreList,

@@ -7,7 +7,7 @@ class QuizBrain {
   List<Question> _questionList = [
     Question(q: 'You lead a cow downstairs but not upstairs.', a: false),
     Question(
-        q: 'Approximately one quater of human bones are ion the feet.',
+        q: 'Approximately one quater of human bones are in the feet.',
         a: true),
     Question(q: 'A slug\'s blood is green.', a: true),
     Question(q: 'Buzz Aldrin\'s mother\'s maiden name was \"Moon\".', a: true),
